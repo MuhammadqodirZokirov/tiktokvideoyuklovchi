@@ -1,16 +1,19 @@
-# This is a sample Python script.
+from aiogram import executor
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from loader import dp
+import middlewares, filters, handlers
+from utils.notify_admins import on_startup_notify
+from utils.set_bot_commands import set_default_commands
 
 
-# Press the green button in the gutter to run the script.
+async def on_startup(dispatcher):
+    # Birlamchi komandalar (/star va /help)
+    await set_default_commands(dispatcher)
+
+    # Bot ishga tushgani haqida adminga xabar berish
+    await on_startup_notify(dispatcher)
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    executor.start_polling(dp, on_startup=on_startup)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
